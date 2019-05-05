@@ -1,0 +1,46 @@
+#!/bin/bash
+
+function removehost()
+{
+    HOSTNAME="$1"
+    if grep "$HOSTNAME" /etc/hosts &> /dev/null
+    then
+        sed -i".bak" "/$HOSTNAME/d" /etc/hosts
+        echo -e "\e[31mRemoved old host\e[39m $HOSTNAME"
+    fi
+}
+
+function addhost()
+{
+    HOSTNAME="$1"
+    IP="$2"
+    HOSTS_LINE="$IP\t$HOSTNAME"
+    if ! grep "$HOSTNAME" /etc/hosts &> /dev/null
+    then
+        echo -e "$HOSTS_LINE" >> /etc/hosts;
+        echo -e "\e[32mAdded host\e[39m $HOSTNAME"
+    fi
+}
+
+function updatehost()
+{
+    HOSTNAME="$1"
+    IP="$2"
+    if grep "$IP.*$HOSTNAME" /etc/hosts &> /dev/null
+    then
+    echo -e "\e[33mFound existing host\e[39m $IP $HOSTNAME"
+    else
+    removehost "$HOSTNAME"
+    addhost "$HOSTNAME" "$IP"
+    fi
+}
+
+updatehost "nuc-host"   "192.168.0.30"
+updatehost "actor-main" "192.168.0.60"
+updatehost "pi"         "192.168.0.10"
+updatehost "dashcam"    "192.168.0.40"
+updatehost "gps"        "192.168.0.222"
+updatehost "vlp16"      "192.168.0.210"
+
+updatehost "roshost" "192.168.0.30"
+

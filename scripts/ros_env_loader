@@ -1,0 +1,5 @@
+#!/bin/bash
+
+export ROS_IP=$(hostname -I | grep -oE '192\.168\.0\.[12]?[1234567890]?[1234567890]\b')
+export ROS_MASTER_URI='http://roshost:11311'
+exec "$@"
