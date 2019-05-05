@@ -26,21 +26,27 @@ function updatehost()
 {
     HOSTNAME="$1"
     IP="$2"
-    if grep "$IP.*$HOSTNAME" /etc/hosts &> /dev/null
+
+    if grep "$HOSTNAME" /etc/hostname &> /dev/null
     then
-    echo -e "\e[33mFound existing host\e[39m $IP $HOSTNAME"
+        echo "Refusing to update $HOSTNAME (local hostname)"
     else
-    removehost "$HOSTNAME"
-    addhost "$HOSTNAME" "$IP"
+        if grep "$IP.*$HOSTNAME" /etc/hosts &> /dev/null
+        then
+        echo -e "\e[33mFound existing host\e[39m $IP $HOSTNAME"
+        else
+        removehost "$HOSTNAME"
+        addhost "$HOSTNAME" "$IP"
+        fi
     fi
 }
 
-updatehost "nuc-host"   "192.168.0.30"
-updatehost "actor-main" "192.168.0.60"
+updatehost "nuc-host"   "192.168.0.60"
+updatehost "actor-main" "192.168.0.30"
 updatehost "pi"         "192.168.0.10"
 updatehost "dashcam"    "192.168.0.40"
 updatehost "gps"        "192.168.0.222"
 updatehost "vlp16"      "192.168.0.210"
 
-updatehost "roshost" "192.168.0.30"
+updatehost "roshost" "192.168.0.60"
 

@@ -1,0 +1,13 @@
+<package format="2">
+  <name>ltu_actor_vehicle_gem</name>
+  <version>0.0.1</version>
+  <description>
+    todo
+  </description>
+  <maintainer email="mpleune@ltu.edu">Mitchell Pleune</maintainer>
+  <license>UNLICENSED</license>
+  <url>https://github.com/LTU-Actor/Vehicle-GEM</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+</package>
+
