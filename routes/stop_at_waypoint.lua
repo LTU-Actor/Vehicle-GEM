@@ -13,6 +13,6 @@ while true do
   pub_latlong(wp_cur_lat, wp_cur_lon, "/waypoint/waypoint")
   pub_float32(d, "/dist")
   heartbeat()
-  spin_for(50)
+  spin_for(200)
 end
 

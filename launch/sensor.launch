@@ -1,0 +1,7 @@
+<launch>
+  <include file="$(find velodyne_ll)/launch/16.launch" />
+  <include file="$(find velodyne_hl)/launch/default.launch" />
+  <!-- <node pkg="velodyne_pointcloud" type="VLP16_points" name="VLP16_points"/> -->
+
+  <include file="$(find piksi_multi_rtk_ros)/launch/piksi_multi_rover.launch"/>
+</launch>
