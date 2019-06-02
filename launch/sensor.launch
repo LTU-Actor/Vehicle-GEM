@@ -4,4 +4,6 @@
   <!-- <node pkg="velodyne_pointcloud" type="VLP16_points" name="VLP16_points"/> -->
 
   <include file="$(find piksi_multi_rtk_ros)/launch/piksi_multi_rover.launch"/>
+
+  <include file="$(find avt_vimba_camera)/launch/mono_camera.launch" />
 </launch>
