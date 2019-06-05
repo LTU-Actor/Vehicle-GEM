@@ -17,5 +17,6 @@
     <param name="host" value="192.168.0.10" />
     <param name="sub/20" value="/estop/state" />
     <param name="sub/12" value="/core/router/heartbeat" />
+    <param name="sub/5" value="/vehicle/dbw_enabled" />
   </node>
 </launch>
