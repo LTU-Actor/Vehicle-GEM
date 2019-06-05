@@ -19,8 +19,11 @@ while wps[wp] ~= nil do
   heartbeat()
   pub_latlong(wps[wp].lat, wps[wp].lon, "/waypoint/waypoint")
   local d = dist(wps[wp].lat, wps[wp].lon)
-  pub_float32(d, "/dist")
-  pub_int8(wp, "/wp")
+
+  -- show on webpage
+  info_distance(d)
+  info_index(wp)
+
   if d < 1.0 then wp = wp + 1 end
   spin_for(100)
 end

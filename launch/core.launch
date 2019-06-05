@@ -1,11 +1,20 @@
 <launch>
-  <node pkg="ltu_actor_route_blob" type="blob" name="blob">
-    <param name="input" value="/cam_repub/image_raw" />
+  <node pkg="ltu_actor_route_blob" type="blob" name="blob_cloudy">
+    <param name="input" value="/cam_repub_cloudy/image" />
+  </node>
+
+  <node pkg="ltu_actor_route_blob" type="blob" name="blob_sunny">
+    <param name="input" value="/cam_repub_sunny/image" />
   </node>
 
   <node pkg="ltu_actor_route_sign_detection" type="stop_sign_detection" name="stop_sign_detection" output="screen">
-    <param name="camera_topic" type="string" value="/camera/image_raw" />
+    <param name="camera_topic" type="string" value="/cam_repub_stopsign/image" />
     <param name="cascade_path" type="string" value="$(find ltu_actor_route_sign_detection)/classifiers/stop_sign.xml" />
+    <param name="max_size" type="int" value="60" />
+    <param name="min_size" type="int" value="20" />
+    <param name="scale_factor" type="double" value="1.1187" />
+    <param name="min_neighbors" type="int" value="4" />
+    <param name="trigger_width" type="int" value="30" />
   </node>
 
   <node pkg="ltu_actor_route_obstacle" type="region" name="region" output="screen">
@@ -30,33 +39,34 @@
     <arg name="navsatfix_topic" value="/piksi/navsatfix_best_fix" />
   </include>
 
-    <node pkg="ltu_actor_inputprocess_camadjust" name="cam_repub_sunny" type="cam_repub">
-	<param name="topic_name" type="string" value="sunny" />
-	<param name="cam_topic" type="string" value="/camera/image_raw" />
-	<param name="resize" type="double" value="1" />
-	<param name="enable_clahe" type="bool" value="False" />
-	<param name="clahe_clip" type="int" value="2" />
-	<param name="enable_color_correct" type="bool" value="False" />
-	<param name="cc_alpha" type="double" value="1" />
-	<param name="cc_beta" type="double" value="0" />
-	<param name="enable_sharpen" type="bool" value="False" />
-	<param name="sharp_weight" type="double" value="0.5" />
-	<param name="sharp_kernel" type="int" value="1" />
-    
-    </node> 
+  <node pkg="ltu_actor_inputprocess_camadjust" name="cam_repub_stopsign" type="cam_repub">
+    <param name="cam_topic" type="string" value="/camera/image_raw" />
+    <param name="resize" type="double" value="0.5" />
+  </node>
 
-    <node pkg="ltu_actor_inputprocess_camadjust" name="cam_repub_cloudy" type="cam_repub">
-	<param name="topic_name" type="string" value="cloudy" />
-	<param name="cam_topic" type="string" value="/camera/image_raw" />
-	<param name="resize" type="double" value="1" />
-	<param name="enable_clahe" type="bool" value="False" />
-	<param name="clahe_clip" type="int" value="2" />
-	<param name="enable_color_correct" type="bool" value="False" />
-	<param name="cc_alpha" type="double" value="1" />
-	<param name="cc_beta" type="double" value="0" />
-	<param name="enable_sharpen" type="bool" value="False" />
-	<param name="sharp_weight" type="double" value="0.5" />
-	<param name="sharp_kernel" type="int" value="1" />
-    </node>
+  <node pkg="ltu_actor_inputprocess_camadjust" name="cam_repub_sunny" type="cam_repub">
+    <param name="cam_topic" type="string" value="/camera/image_raw" />
+    <param name="resize" type="double" value="1" />
+    <param name="enable_less_color" type="bool" value="True" />
+    <param name="less_color_mux" type="double" value="1" />
+    <param name="enable_clahe" type="bool" value="False" />
+    <param name="clahe_clip" type="int" value="2" />
+    <param name="enable_color_correct" type="bool" value="False" />
+    <param name="cc_alpha" type="double" value="1" />
+    <param name="cc_beta" type="double" value="0" />
+    <param name="enable_sharpen" type="bool" value="False" />
+    <param name="sharp_weight" type="double" value="0.5" />
+    <param name="sharp_kernel" type="int" value="1" />
+  </node> 
+
+  <node pkg="ltu_actor_inputprocess_camadjust" name="cam_repub_cloudy" type="cam_repub">
+    <param name="cam_topic" type="string" value="/camera/image_raw" />
+    <param name="resize" type="double" value="1" />
+    <param name="enable_less_color" type="bool" value="True" />
+    <param name="less_color_mux" type="double" value="0.8" />
+    <param name="enable_color_correct" type="bool" value="True" />
+    <param name="cc_alpha" type="double" value="4.1" />
+    <param name="cc_beta" type="double" value="-900" />
+  </node>
 
 </launch>
