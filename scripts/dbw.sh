@@ -14,11 +14,11 @@
 case "$1" in
   start)
     echo "Starting dbw..."
-    sudo -u sean bash -c '/home/sean/dbw-start.sh'
+    sudo -u actor bash -c '/home/sean/dbw-start.sh'
     ;;
   stop)
     echo "Stopping dbw..."
-    sudo -u sean bash -c '/home/sean/dbw-stop.sh'
+    sudo -u actor bash -c '/home/sean/dbw-stop.sh'
     sleep 2
     ;;
   *)
