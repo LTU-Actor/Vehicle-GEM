@@ -1,24 +1,56 @@
 <launch>
-  <node pkg="ltu_actor_route_blob" type="blob" name="blob_cloudy">
-    <param name="input" value="/cam_repub_cloudy/image" />
+  <arg name="blob_cc_alpha" value="4.1" />
+  <arg name="blob_cc_beta" value="-900" />
+  <arg name="blob_less_color_mux" value="2" />
+
+  <node pkg="ltu_actor_route_blob" type="blob" name="blob">
+    <param name="input" value="/cam_repub_blob/image" />
+    <param name="enable_forward" value="true" />
+    <param name="lines_enable" value="true" />
+    <param name="blob_y" value="0.95" />
+    <param name="blob_max_p_y" value="0.7" />
+    <param name="lines_thresh" value="60" />
+    <param name="lines_max_gap" value="200" />
   </node>
 
-  <node pkg="ltu_actor_route_blob" type="blob" name="blob_sunny">
-    <param name="input" value="/cam_repub_sunny/image" />
+  <node pkg="ltu_actor_route_blob" type="blob" name="blob_park">
+    <param name="input" value="/cam_repub_blob_park/image" />
+    <param name="enable_forward" value="true" />
+    <param name="lines_enable" value="true" />
+    <param name="blob_y" value="0.95" />
+    <param name="blob_max_p_y" value="0.7" />
+    <param name="lines_thresh" value="60" />
+    <param name="lines_max_gap" value="200" />
   </node>
 
   <node pkg="ltu_actor_route_sign_detection" type="stop_sign_detection" name="stop_sign_detection" output="screen">
     <param name="camera_topic" type="string" value="/cam_repub_stopsign/image" />
     <param name="cascade_path" type="string" value="$(find ltu_actor_route_sign_detection)/classifiers/stop_sign.xml" />
-    <param name="max_size" type="int" value="60" />
+    <param name="max_size" type="int" value="51" />
     <param name="min_size" type="int" value="20" />
-    <param name="scale_factor" type="double" value="1.1187" />
+    <param name="scale_factor" type="double" value="1.059" />
     <param name="min_neighbors" type="int" value="4" />
-    <param name="trigger_width" type="int" value="30" />
+    <param name="trigger_width" type="int" value="25" />
+    <param name="red_mask" value="true" />
+    <param name="hue_lower"        value="136" />
+    <param name="saturation_lower" value="82" />
+    <param name="value_lower"      value="49" />
+    <param name="hue_upper"        value="255" />
+    <param name="saturation_upper" value="255" />
+    <param name="value_upper"      value="255" />
   </node>
 
   <node pkg="ltu_actor_route_obstacle" type="region" name="region" output="screen">
-      <param name="sub_topic" value="/lidar/vh_wm_points" />
+    <param name="sub_topic" value="/lidar/vh_wm_points" />>>>>>
+    <param name="right_close_originX" value="-2.4"  />
+    <param name="right_close_originY" value="-2.6"  />
+    <param name="right_close_width"   value="1.8"   />
+    <param name="right_close_length"  value="10.2"  />
+    <param name="right_close_z_min"   value="-1.25" />
+    <param name="right_close_z_max"   value="0.0"   />
+    <param name="left_far_width" value="3.2"/>
+    <param name="left_far_originY" value="0.65"/>
+    <param name="right_far_originY" value="-1.5"/>
   </node>
 
   <include file="$(find ltu_actor_route_waypoint)/launch/waypoint.launch">
@@ -27,8 +59,8 @@
     <arg name="mult" value="0.5" />
     <arg name="speed" value="1.5" />
     <arg name="reverse" value="false" />
-    <arg name="gps_fix" value="/piksi/navsatfix_best_fix" />
-    <arg name="gps_vel_ned" value="/piksi/vel_ned" />
+    <arg name="gps_fix" value="/baseline/piksi/navsatfix_best_fix" />
+    <arg name="gps_vel_ned" value="/baseline/piksi/vel_ned" />
   </include>
 
   <include file="$(find ltu_actor_core)/launch/core.launch">
@@ -36,37 +68,52 @@
     <arg name="http_video_port" value="8091" />
     <arg name="script_folder" value="$(find ltu_actor_vehicle_gem)/routes" />
     <arg name="estop_service" value="/estop/stop" />
-    <arg name="navsatfix_topic" value="/piksi/navsatfix_best_fix" />
+    <arg name="navsatfix_topic" value="/baseline/piksi/navsatfix_best_fix" />
+    <arg name="video1" value="/blob/debug_lines" />
+    <arg name="video2" value="/cam_repub_blob/image" />
+    <arg name="video3" value="/stop_sign_detection/debug" />
+    <arg name="video4" value="/blob/debug_result" />
   </include>
 
   <node pkg="ltu_actor_inputprocess_camadjust" name="cam_repub_stopsign" type="cam_repub">
     <param name="cam_topic" type="string" value="/camera/image_raw" />
     <param name="resize" type="double" value="0.5" />
+  </node>>
+
+  <node pkg="ltu_actor_inputprocess_camadjust" name="cam_repub_blob" type="cam_repub">
+    <param name="cam_topic" type="string" value="/camera/image_raw" />
+    <param name="resize" type="double" value="1" />
+    <param name="enable_less_color" type="bool" value="True" />
+    <param name="less_color_mux" type="double" value="$(arg blob_less_color_mux)" />
+    <param name="enable_color_correct" type="bool" value="True" />
+    <param name="cc_alpha" type="double" value="$(arg blob_cc_alpha)" />
+    <param name="cc_beta" type="double" value="$(arg blob_cc_beta)" />
   </node>
 
-  <node pkg="ltu_actor_inputprocess_camadjust" name="cam_repub_sunny" type="cam_repub">
+  <node pkg="ltu_actor_inputprocess_camadjust" name="cam_repub_blob_park" type="cam_repub">
     <param name="cam_topic" type="string" value="/camera/image_raw" />
     <param name="resize" type="double" value="1" />
-    <param name="enable_less_color" type="bool" value="True" />
-    <param name="less_color_mux" type="double" value="1" />
-    <param name="enable_clahe" type="bool" value="False" />
-    <param name="clahe_clip" type="int" value="2" />
-    <param name="enable_color_correct" type="bool" value="False" />
-    <param name="cc_alpha" type="double" value="1" />
-    <param name="cc_beta" type="double" value="0" />
-    <param name="enable_sharpen" type="bool" value="False" />
-    <param name="sharp_weight" type="double" value="0.5" />
-    <param name="sharp_kernel" type="int" value="1" />
-  </node> 
-
-  <node pkg="ltu_actor_inputprocess_camadjust" name="cam_repub_cloudy" type="cam_repub">
-    <param name="cam_topic" type="string" value="/camera/image_raw" />
-    <param name="resize" type="double" value="1" />
-    <param name="enable_less_color" type="bool" value="True" />
-    <param name="less_color_mux" type="double" value="0.8" />
     <param name="enable_color_correct" type="bool" value="True" />
     <param name="cc_alpha" type="double" value="4.1" />
-    <param name="cc_beta" type="double" value="-900" />
+    <param name="cc_beta" type="double" value="-714.0" />
+  </node>
+
+  <node pkg="ltu_actor_inputprocess_camadjust" name="cam_repub_thresh" type="cam_repub">
+    <param name="cam_topic" type="string" value="/camera/image_raw" />
+    <param name="resize" type="double" value="1" />
+    <param name="enable_less_color" type="bool" value="True" />
+    <param name="less_color_mux" type="double" value="4.0" />
+    <param name="enable_color_correct" type="bool" value="True" />
+    <param name="cc_alpha" type="double" value="1.7" />
+    <param name="cc_beta" type="double" value="-204" />
+  </node>
+
+  <node pkg="adap_parameter" name="thresh" type="client_thresh">
+    <param name="source" value="/cam_repub_thresh/image" />
+  </node>
+
+  <node pkg="ltu_actor_route_pothole" name="pothole" type="pothole_detection">
+    <param name="input" value="/cam_repub_blob/image" />
   </node>
 
 </launch>

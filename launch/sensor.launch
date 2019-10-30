@@ -3,10 +3,25 @@
   <include file="$(find velodyne_hl)/launch/default.launch" />
   <!-- <node pkg="velodyne_pointcloud" type="VLP16_points" name="VLP16_points"/> -->
 
-  <include file="$(find piksi_multi_rtk_ros)/launch/piksi_multi_rover.launch">
-    <arg name="interface" value="tcp" />
-    <arg name="tcp_addr" value="192.168.0.222" />
-  </include>
+
+
+  <group ns="baseline">
+    <include file="$(find piksi_multi_rtk_ros)/launch/piksi_multi_rover.launch">
+      <arg name="interface" value="tcp" />
+      <arg name="tcp_addr" value="192.168.0.222" />
+      <arg name="load_enu_origin_from_file"   value="true" />
+      <arg name="enu_origin_file"             value="$(find ltu_actor_vehicle_gem)/enu_origin.yaml"/>
+    </include>
+  </group>
+
+  <group ns="reference">
+    <include file="$(find piksi_multi_rtk_ros)/launch/piksi_multi_rover.launch">
+      <arg name="interface" value="tcp" />
+      <arg name="tcp_addr" value="192.168.0.223" />
+      <arg name="load_enu_origin_from_file"   value="true" />
+      <arg name="enu_origin_file"             value="$(find ltu_actor_vehicle_gem)/enu_origin.yaml"/>
+    </include>
+  </group>
 
   <include file="$(find avt_vimba_camera)/launch/mono_camera.launch" />
 </launch>
