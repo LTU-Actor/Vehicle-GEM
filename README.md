@@ -1,12 +1,11 @@
 # Vehicle-GEM
 
 **This is the "root" package for the Actor system**. It contains the core
-launchfiles and route scripts to launch and operate the system on the GEM
+launch files and route scripts to launch and operate the system on the GEM
 platform.
 
-Vehicle platform for Polaris GEM e2 with a drive-by-wire kit made by Dataspeed.
-Also retrofitted with a primary computer, Intel NUC, Raspberry Pi, Ardunio Uno,
-and many sensors.
+The vehicle platform for Polaris GEM e2 is retrofitted with a drive-by-wire kit made by Dataspeed.
+A primary computer, Intel NUC, Raspberry Pi, Ardunio Uno, and many sensors were installed post vehicle production.
 
 # Hardware Requirements
 
@@ -14,11 +13,11 @@ and many sensors.
   the `dbw_can_bus.ino` file.
 - Compile all the actor packages in a workspace and add  `source
   /path/to/devel/setup.bash` to your `.bashrc`.
-- The Actor GEM runs with two computers. An Intel NUC which runs roshost and
-  the critical packages & DBW layer, and a full size PC for heavier
+- The Actor GEM runs with two computers. An Intel NUC which runs roshost,
+  the critical packages, and Drive By Wire layer, and a full size PC for heavier
   computation.
 - The vehicle also leverages an Mako-G allied-vision camera, piksi-multi GPS,
-  and RPi for remote gpio control with gpiozero. 
+  and Raspberry Pi for remote gpio control using gpiozero. 
 
 # Software
 
@@ -35,9 +34,9 @@ git clone https://github.com/LTU-Actor/Sensor-Vimba.git
 ```
 
 The Actor GEM vehicle runs all the above packages on the roshost/NUC,
-**except** the Sensor-Vimba package which fixes communication with our camera,
-which runs on the computation PC. It's a good idea to run rosdep to grab any
-mising dependicies.
+**except** the Sensor-Vimba package. The Sensor-Vimba package runs on the primary 
+compuation pc and controls the communication to our the Mako-G camera. After the 
+packages are installed it is a good idea to run rosdep to grab any missing dependicies.
 
 ####  Add IPs Addresses Aliases
 
@@ -62,7 +61,7 @@ rosrun ltu_actor_vehicle_gem ros-env-loader
 The Actor system is split into three separate top-level launch files:
 
 1. host: This should launch first on the pc that will run roscore. It runs the
-   estop, raspberry pi communication, and vehicle communication layer.
+   estop, raspberry pi communication, and vehicle drive-by-wire communication layer.
 
 2. sensor: This launches the nodes to read from all vehicle sensors. If running
    the system from a rosbag, then do not launch this file.
