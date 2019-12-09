@@ -11,10 +11,14 @@
   - GPS
   - Switch
   - Nuc
+  - R-eStop
   - Lidar
+  - GPS 2
 - If the car is charging, then it does not charge the 12v battery under the
   dash, so turn on the external battery charger in the passenger side
-  foot-well. Set it to 20A. The voltage should start displaying high 13 volts
+  foot-well. Set it to 20A, the third led light should come on. The voltage 
+  should start displaying high 13 volts. Note that you may need to press the
+  run/stop button to enable.
 - Press the power button on the main computer to turn it on
 
 ### ROS
@@ -82,9 +86,17 @@ Once the route is running and the estop state is "false", the vehicle's
 drive-by-wire system must be activated:
 - Once per power cycle, the DBW button will blink, meaning the steering wheel
   needs to be calibrated. Center the wheels, then click the button to let it
-  know where center is.
+  know where center is. The DPW button should stop blinking.
 - Click the button to toggle between autonomous/manual control. You will feel
   the steering wheel tense up  when in autonomous mode.
 - The button should light up red when in autonomous mode. If not, then this is
   an issue with the ROS nodes, saying that the DBW system is not detecting any
-  direction commands.
+  direction commands. If this is the case, the car will need to be restarted.
+  
+  ### Shutting Down the Vehicle
+  
+  - Power off the main PC
+  - Turn off the vehicle ignition
+  - Switch off the inverter
+  - Leave the battery charger on in the 20A state
+  - Plug in vehicle
