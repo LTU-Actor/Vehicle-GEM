@@ -37,6 +37,10 @@
     <arg name="script_folder" value="$(find ltu_actor_vehicle_gem)/routes" />
     <arg name="estop_service" value="/estop/stop" />
     <arg name="navsatfix_topic" value="/piksi/navsatfix_best_fix" />
+    <arg name="video1" value="/camera/image_raw" />
+    <arg name="video2" value="/camera/image_raw" />
+    <arg name="video3" value="/camera/image_raw" />
+    <arg name="video4" value="/blob_sunny/debug_blob" />
   </include>
 
   <node pkg="ltu_actor_inputprocess_camadjust" name="cam_repub_stopsign" type="cam_repub">

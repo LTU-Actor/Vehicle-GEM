@@ -1,12 +1,39 @@
 <launch>
-  <include file="$(find velodyne_ll)/launch/16.launch" />
-  <include file="$(find velodyne_hl)/launch/default.launch" />
-  <!-- <node pkg="velodyne_pointcloud" type="VLP16_points" name="VLP16_points"/> -->
 
-  <include file="$(find piksi_multi_rtk_ros)/launch/piksi_multi_rover.launch">
-    <arg name="interface" value="tcp" />
-    <arg name="tcp_addr" value="192.168.0.222" />
+  <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" />
+
+  <group ns="gps222">
+      <include file="$(find piksi_multi_rtk_ros)/launch/piksi_multi_rover.launch">
+        <arg name="interface" value="tcp" />
+        <arg name="tcp_addr" value="192.168.0.222" />
+      </include>
+  </group>
+
+  <!--
+  <group ns="gps223">
+    <include file="$(find piksi_multi_rtk_ros)/launch/piksi_multi_rover.launch">
+      <arg name="interface" value="tcp" />
+      <arg name="tcp_addr" value="192.168.0.223" />
+    </include>
+  </group>
+  -->
+
+  <include file="$(find avt_vimba_camera)/launch/mono_camera.launch">
+    <arg name="ip" value="192.168.0.40" />
+    <arg name="guid" value="50-0536910784" />
+    <arg name="frame_id" value="" />
+    <arg name="acquisition_mode" value="Continuous" />
+    <arg name="acquisition_rate" value="14.98" />
+    <arg name="exposure" value="4000" />
+    <arg name="exposure_auto" value="" />
+    <arg name="gain" value="24" />
+    <arg name="gain_auto" value="Continuous" />
+    <arg name="height" value="770" />
+    <arg name="width" value="1030" />
+    <arg name="pixel_format" value="RGB8Packed" />
+    <arg name="whitebalance_auto" value="Continuous" />
+    <arg name="binning_x" value="2" />
+    <arg name="decimation_y" value="2" />
   </include>
 
-  <include file="$(find avt_vimba_camera)/launch/mono_camera.launch" />
 </launch>
