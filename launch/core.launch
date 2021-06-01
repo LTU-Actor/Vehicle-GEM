@@ -18,7 +18,8 @@
   </node>
 
   <node pkg="ltu_actor_route_obstacle" type="region" name="region" output="screen">
-      <param name="sub_topic" value="/lidar/vh_wm_points" />
+      <!-- <param name="sub_topic" value="/lidar/vh_wm_points" /> -->
+      <param name="sub_topic" value="/velodyne_points" />
   </node>
 
   <include file="$(find ltu_actor_route_waypoint)/launch/waypoint.launch">
